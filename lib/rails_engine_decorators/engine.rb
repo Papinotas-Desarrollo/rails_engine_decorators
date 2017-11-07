@@ -4,8 +4,9 @@ module RailsEngineDecorators
 
     included do
       initializer 'rails_engine_decorators.load' do
+        engine_root_path = Pathname.new Dir.pwd
         config.to_prepare do
-          Dir.glob(Engine.root.join('app/decorators/**/*_decorator*.rb')).each do |c|
+          Dir.glob(engine_root_path.join('app/decorators/**/*_decorator*.rb')).each do |c|
             require_dependency(c)
           end
         end
