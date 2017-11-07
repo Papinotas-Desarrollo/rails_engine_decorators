@@ -1,11 +1,22 @@
 = Rails Engine Decorators
 
-Extend Rails Engine's business logic (models, controllers, helpers, etc.) easily from
-your application or other engine.
+This gem was forked from https://github.com/atd/rails_engine_decorators for a slightly different use case.
 
-This solution was first implemented in the Forem engine, see https://github.com/radar/forem/pull/260
+The previous gem worked nicely when you wanted to add functionality to a model declared inside an engine.
 
-== Authors
+However, this gem is intended for the opposite use case: When you want to add functionality to a model declared in the main app from within the engine.
+
+An example would be the following:
+
+Imagine you have a User model in your main application and you create an engine which adds a specific type of authentication to the User model. With this gem, you just have to create a decorator for the User model inside your engine and it will be accessible in your main app.
+
+If your intended use case is the original one, please use the original gem and not this one.
+
+== Modification Author
+
+Daniel Merrill, https://github.com/dmerrill6
+
+== Original Authors
 
 * Kunal Chaudhari, https://github.com/kunalchaudhari
 * Ryan Bigg, https://github.com/radar
@@ -14,23 +25,21 @@ This solution was first implemented in the Forem engine, see https://github.com/
 
 == Usage
 
-(From Forem's patch):
-
 Standard practice for including such changes in your application or extension is to create a file within the relevant app/models or app/controllers directory with the original class name with _decorator appended.
 
-### Adding a custom method to the Post model:
-    # app/decorators/models/forem/post_decorator.rb
+### Adding a custom method to the User model:
+    # engines/my_engine/app/decorators/models/my_engine/user_decorator.rb
 
-    Forem::Post.class_eval do
+    MyEngine::User.class_eval do
       def some_method
         ...
       end
     end
 
-### Adding a custom method to the PostsController:
-    # app/decorators/controllers/forem/posts_controller_decorator.rb
+### Adding a custom method to the UsersController:
+    # engines/my_engine/app/decorators/controllers/my_engine/users_controller_decorator.rb
 
-    Forem::PostsController.class_eval do
+    Forem::UsersController.class_eval do
       def some_action
         ...
       end
