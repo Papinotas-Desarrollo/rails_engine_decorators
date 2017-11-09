@@ -1,13 +1,12 @@
 require 'rails/engine/configuration'
 
-Rails::Engine::Configuration.class_eval do
-  def paths_with_decorators
-    @paths ||= begin
-      paths = paths_without_decorators
-      paths.add "app/decorators", :eager_load => true
-      paths
-    end
+# Adds decorators to paths currently set in configuration.
+module EngineConfigurationWithDecorators
+  def paths
+    paths = super
+    paths.add "app/decorators", :eager_load => true
+    paths
   end
-
-  alias_method_chain :paths, :decorators
 end
+
+Rails::Engine::Configuration.prepend(EngineConfigurationWithDecorators)
